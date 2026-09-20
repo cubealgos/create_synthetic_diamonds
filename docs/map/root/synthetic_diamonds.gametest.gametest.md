@@ -9,3 +9,7 @@ signature is the contract; read the source only when the summary is not enough.
 M0: the mod loads beside Create Fly; everything else follows.
 - `void theModLoadsBesideCreateFly(GameTestHelper helper)`
 
+### `class WeightedPressingGameTest` — `src/gametest/java/synthetic_diamonds/gametest/WeightedPressingGameTest.java`
+Proves a real MechanicalPressBlockEntity finds and runs this mod's synthetic_diamonds:weighted_pressing recipe class through its ordinary RecipeManager/RecipeMap lookup, with zero mixin (`docs/spec/domains/roll.md` `ROLL-REQ-002`, `ROLL-REQ-005`; `docs/spec/04-architecture.md` `ARCH-DEC-002`).
+- `void aRealPressFindsAndRunsTheWeightedPressingRecipe(GameTestHelper helper)`
+

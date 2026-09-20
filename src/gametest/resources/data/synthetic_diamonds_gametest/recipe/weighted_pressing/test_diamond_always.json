@@ -1,0 +1,10 @@
+{
+  "type": "synthetic_diamonds:weighted_pressing",
+  "ingredient": "minecraft:charcoal",
+  "diamond_chance": 1.0,
+  "diamond_count": 1,
+  "flint_chance": 0.0,
+  "flint_count": 1,
+  "gunpowder_chance": 0.0,
+  "gunpowder_count": 1
+}
