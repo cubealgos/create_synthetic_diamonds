@@ -9,7 +9,7 @@ The pure part: the weighted exclusive roll, with no Minecraft imports (docs/spec
 
 ### `class WeightedPick` — `src/main/java/synthetic_diamonds/model/WeightedPick.java`
 The exclusive weighted pick over Outcome#DIAMOND, Outcome#FLINT and Outcome#GUNPOWDER (`docs/spec/domains/roll.md` ROLL-REQ-001): given three weights, one float roll lands in exactly one of the three buckets, never zero and never two.
-- `WeightedPick of(float diamondWeight, float flintWeight, float gunpowderWeight, Consumer<String> onNormalized)` — Builds a pick from three weights, normalizing them to sum to exactly 1.0 when they do not (`ROLL-REQ-003`) and reporting that through onNormalized once, rather than logging from this pure class directly.
+- `WeightedPick of(float diamondWeight, float flintWeight, float gunpowderWeight, Consumer<String> onNormalized)` — Builds a pick from three weights: each is first clamped into [0, 1] (`docs/spec/domains/recipe.md` `RECIPE-FAIL-003`), reporting that through onNormalized once per clamped weight, then the (possibly clamped) three are normalized to sum to exactly 1.0 when they do not (`ROLL-REQ-003`), reported through the same consumer once more.
 - `Outcome pick(float roll)` — Partitions [0, 1) into [0, w_diamond) / [w_diamond, w_diamond + w_flint) / [w_diamond + w_flint, 1.0) and returns which bucket roll lands in; there is no fourth "nothing" bucket (`domains/roll.md` §3).
 
     - **nested** `enum Outcome`
