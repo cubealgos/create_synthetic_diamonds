@@ -11,6 +11,11 @@ The belt-mode pressing path (`docs/spec/domains/roll.md` `ROLL-REQ-006`: "identi
 - `void coalOnABeltAlwaysYieldsExactlyOneOutcome(GameTestHelper helper)`
 - `void coalBlockOnABeltAlwaysYieldsASingleStackOfNineFlintNineGunpowderOrOneDiamond(GameTestHelper helper)`
 
+### `class DebugCommandGameTest` — `src/gametest/java/synthetic_diamonds/gametest/DebugCommandGameTest.java`
+SD-4's two acceptance-criteria game tests for synthetic_diamonds.debug.DebugCommand, run in the game test environment, which is itself a development environment (FabricLoader.isDevelopmentEnvironment() is true under runGameTest, exactly as under runClient), so the command is registered and reachable here — the same finding create_villager_customers's own DebugCommandGameTest (`VC-5`) records: registration itself, gated on that one line in SyntheticDiamonds.onInitialize, is proven by code review, not a game test, since there is no development/non-development pair of environments a single test run can compare.
+- `void pressTalliesAllDiamondsAgainstAnAlwaysDiamondRecipe(GameTestHelper helper)`
+- `void pressReportsNoRecipeForAnItemWithNoWeightedPressingRecipe(GameTestHelper helper)`
+
 ### `class RecipeAssertions` — `src/gametest/java/synthetic_diamonds/gametest/RecipeAssertions.java`
 Shared assertions for the SD-3 recipe game tests (`docs/spec/domains/recipe.md` `RECIPE-REQ-001`–`003`, `docs/spec/domains/roll.md` `ROLL-REQ-001`): a press cycle's result is exactly one of {diamond, flint, gunpowder}, at the count that outcome's recipe declares — never zero outcomes, never a fourth item, never the wrong count.
 - `void assertSingleExclusiveOutcome(GameTestHelper helper, java.util.List<ItemStack> result, int diamondCount, int flintCount, int gunpowderCount)` — Asserts result is exactly one stack, of one of the three outcome items, at that outcome's expected count.

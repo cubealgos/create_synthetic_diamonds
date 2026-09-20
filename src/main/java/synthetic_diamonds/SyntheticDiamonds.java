@@ -1,8 +1,10 @@
 package synthetic_diamonds;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import synthetic_diamonds.debug.DebugCommand;
 import synthetic_diamonds.recipe.RecipeRegistration;
 
 /** The mod's server-and-common entrypoint. */
@@ -13,6 +15,7 @@ public final class SyntheticDiamonds implements ModInitializer {
     @Override
     public void onInitialize() {
         RecipeRegistration.register();
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) DebugCommand.register();
         LOGGER.info("Synthetic Diamonds ready beside Create Fly");
     }
 }

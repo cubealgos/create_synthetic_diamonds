@@ -15,10 +15,11 @@ signature page before calling into a package you did not write.
 |---|---|---|---|
 | `synthetic_diamonds` | root | SyntheticDiamonds |  |
 | `synthetic_diamonds.client` | root | SyntheticDiamondsClient |  |
+| `synthetic_diamonds.debug` | root | DebugCommand |  |
 | `synthetic_diamonds.model` | root | WeightedPick | The pure part: the weighted exclusive roll, with no Minecraft imports (docs/spec/operations/testing.md). |
 | `synthetic_diamonds.recipe` | root | RecipeRegistration, WeightedPressingRecipe, WeightedPressingRecipeSerializer |  |
 | `synthetic_diamonds` | root (test) | SourceSurfaceTest |  |
-| `synthetic_diamonds.gametest` | root (gametest) | BeltPressingGameTest, RecipeAssertions, RecipeCoexistenceGameTest, RecipeOverrideGameTest, ShippedRecipesDepotGameTest, SmokeGameTest, WeightedPressingDistributionGameTest, WeightedPressingGameTest |  |
+| `synthetic_diamonds.gametest` | root (gametest) | BeltPressingGameTest, DebugCommandGameTest, RecipeAssertions, RecipeCoexistenceGameTest, RecipeOverrideGameTest, ShippedRecipesDepotGameTest, SmokeGameTest, WeightedPressingDistributionGameTest, WeightedPressingGameTest |  |
 | `synthetic_diamonds.model` | root (test) | WeightedPickTest |  |
 | `synthetic_diamonds.recipe` | root (test) | RecipeFilesTest |  |
 
