@@ -1,7 +1,27 @@
 {
   "pulls": {
-    "at": 1789879983.0394702,
+    "at": 1789880951.120529,
     "payload": [
+      {
+        "author": "scheeren",
+        "base": "development",
+        "ci": "success",
+        "head": "feature/sd-2-recipe-type",
+        "index": "5",
+        "state": "merged",
+        "title": "feat(synthetic_diamonds): the weighted pressing recipe type: one exclusive roll over diamond, flint and gunpowder, found by Create's press (SD-2)",
+        "updated": "2026-09-20T04:53:56Z"
+      },
+      {
+        "author": "scheeren",
+        "base": "development",
+        "ci": "success",
+        "head": "feature/sd-2-recipe-type",
+        "index": "4",
+        "state": "merged",
+        "title": "feat(synthetic_diamonds): the weighted pressing recipe type: one exclusive roll over diamond, flint and gunpowder, found by Create's press (SD-2)",
+        "updated": "2026-09-20T04:53:33Z"
+      },
       {
         "author": "scheeren",
         "base": "development",

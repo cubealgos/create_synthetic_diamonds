@@ -35,13 +35,13 @@ add the matching `en_us.json` entry in the same commit if so).
 
 ## Acceptance criteria
 
-- [ ] `/synthetic_diamonds debug press <count>` runs the roll `<count>` times and prints an
+- [x] `/synthetic_diamonds debug press <count>` runs the roll `<count>` times and prints an
       accurate tally.
-- [ ] A game test invokes the command and asserts the tally sums to `<count>` and only ever
+- [x] A game test invokes the command and asserts the tally sums to `<count>` and only ever
       contains the three known outcome buckets.
-- [ ] `SourceSurfaceTest` still passes (no networking type introduced; any new translation key has
+- [x] `SourceSurfaceTest` still passes (no networking type introduced; any new translation key has
       an `en_us` entry).
-- [ ] `just check` green.
+- [x] `just check` green.
 
 ## Constraints and prior findings
 
