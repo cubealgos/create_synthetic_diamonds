@@ -18,8 +18,8 @@ One-line edit in `tools/doctor.py` (two occurrences), `just doctor` still green.
 
 ## Acceptance criteria
 
-- [ ] `tools/doctor.py` reads `SD_VAULT_SPEC`; no `VC_` reference remains in the repo (`grep -r VC_ tools justfile` empty).
-- [ ] Merged through a Forgejo pull request into `development`.
+- [x] `tools/doctor.py` reads `SD_VAULT_SPEC`; no `VC_` reference remains in the repo (`grep -r VC_ tools justfile` empty).
+- [x] Merged through a Forgejo pull request into `development`.
 
 ## Constraints and prior findings
 
