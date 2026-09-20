@@ -19,7 +19,7 @@ Woodpecker's first runs on this repo fail at `./.ci/install-tools.sh: Permission
 ## Acceptance criteria
 
 - [x] `.ci/install-tools.sh` is tracked with mode 100755.
-- [ ] The Woodpecker pipeline for the merge commit on `development` succeeds.
+- [x] The Woodpecker pipeline for the merge commit on `development` succeeds.
 
 ## Constraints and prior findings
 
