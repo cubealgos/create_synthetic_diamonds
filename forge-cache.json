@@ -1,7 +1,27 @@
 {
   "pulls": {
-    "at": 1789891027.225709,
+    "at": 1789891817.394121,
     "payload": [
+      {
+        "author": "scheeren",
+        "base": "development",
+        "ci": "success",
+        "head": "chore/sd-10-doctor-env",
+        "index": "9",
+        "state": "merged",
+        "title": "chore(synthetic_diamonds): doctor reads SD_VAULT_SPEC, not the villager repo's variable (SD-10)",
+        "updated": "2026-09-20T07:57:57Z"
+      },
+      {
+        "author": "scheeren",
+        "base": "development",
+        "ci": "success",
+        "head": "chore/sd-10-doctor-env",
+        "index": "8",
+        "state": "merged",
+        "title": "chore(synthetic_diamonds): doctor reads SD_VAULT_SPEC, not the villager repo's variable (SD-10)",
+        "updated": "2026-09-20T07:57:47Z"
+      },
       {
         "author": "scheeren",
         "base": "development",

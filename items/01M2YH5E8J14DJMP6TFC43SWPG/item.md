@@ -35,9 +35,9 @@ the odds quickly before committing to the slower real-time checklist item.
 
 ## Acceptance criteria
 
-- [ ] A requirement-to-test table in this ticket covers every `RECIPE-REQ`, `ROLL-REQ` and
+- [x] A requirement-to-test table in this ticket covers every `RECIPE-REQ`, `ROLL-REQ` and
       `UI-REQ` id.
-- [ ] `just check` green three consecutive runs, recorded with their game-test counts, on a clean
+- [x] `just check` green three consecutive runs, recorded with their game-test counts, on a clean
       checkout.
 - [ ] `TEST-REQ-002` (satisfied at SD-1) and `TEST-REQ-003` (satisfied at SD-3) restated in the
       table with their ticket references.
@@ -159,12 +159,12 @@ fast way to sanity-check the odds before spending the real time on watching a pr
       gunpowder) across repeated cycles, one outcome per press, never zero and never two at once;
       the coal block's diamond outcome is 1 diamond (not scaled), its flint/gunpowder outcomes are
       9 each.
-- [ ] A belt line running items through a powered press shows the same three outcomes, one per
+- [x] A belt line running items through a powered press shows the same three outcomes, one per
       item, with the belt carrying the result onward.
 - [ ] `/synthetic_diamonds debug press 2000` (charcoal, the default) and
       `/synthetic_diamonds debug press 2000 minecraft:coal_block` each tally near 0.5% diamond /
       95% flint / 4.5% gunpowder.
 - [ ] A datapack recipe override (e.g. retuning `charcoal.json`'s weights) changes the odds a real
       press rolls against, without a client update.
-- [ ] No JEI entry anywhere for these three recipes (deferred to 1.1, `UI-DEC-001`) — confirmed
+- [x] No JEI entry anywhere for these three recipes (deferred to 1.1, `UI-DEC-001`) — confirmed
       absent, not merely unnoticed.
