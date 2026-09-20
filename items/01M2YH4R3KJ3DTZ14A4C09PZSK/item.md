@@ -86,3 +86,43 @@ during this ticket, worth a vault note. `kontor init`'s two root commits (`chore
 than this repo's own (`scheeren@cubealgos.de`); both were un-pushed single-commit histories, so
 amended with `--reset-author` after setting local `git config user.name`/`user.email`, rather than
 left wrong or worked around with `-c user.email=` on every later commit.
+
+## Findings
+
+**Repo.** `https://git.cubealgos.de/cubealgos/create_synthetic_diamonds`, id `18`, public, wiki/
+projects/packages/actions off, issues on. Default branch `development` (auto-set by Forgejo on the
+first push, no separate PATCH needed for that field). Branch protection (`enable_push: false`) on
+both `development` and `production`. Merge message templates copied in at bootstrap, so unlike the
+three siblings' own first merge this repo's very first PR (#1) already had `.gitea/default_merge_message/*`
+on `development` before it merged — no need for the explicit `merge_title_field`/`merge_message_field`
+workaround the vault note describes for a repo's first-ever merge; used them anyway for full
+control over the Conventional Commits subject. PR #1 merged clean on the first attempt (`merged:
+true`, `origin/development`'s tip confirmed by both the API and `git ls-remote` after a few
+seconds), unlike the "merge recorded but never lands" failure the vault note documents happening on
+two of five merges elsewhere the same week — worth noting as a data point that it is not universal,
+not that the failure mode is fixed.
+
+**gitkontor project id** `01M2YGMQZT28QFB5PQ3V837NXT`; milestone ids: M0
+`01M2YGMQZVDDZJ54K9FGDFTCB4`, M1 `01M2YH2GBP4YGPATW8GE3XZBZE`, M2 `01M2YH2GDEF2NM4TW7DKT0FQFK`, M3
+`01M2YH2GF66S4RF7AQWYFMK1R0`.
+
+**Differences from the `VC-1` bootstrap**, beyond the domain-content rewrite the Approach section
+already describes: (1) `docs/modrinth/body.md` ships now, as a placeholder, per this ticket's own
+brief — `VC-1` shipped no `docs/modrinth/` at all, adding it only at `VC-7`. (2)
+`synthetic_diamonds.mixins.json` is expected to stay empty forever (`DEC-004`'s zero-mixin-targets
+ruling), where every sibling's own empty mixin config was a placeholder for mixins its next couple
+of tickets would add. (3) `kontor claim`/`kontor finish` here are the bare CLI subcommands, not a
+`just claim`/`just unblock-sweep` recipe wrapper — this repo's `justfile` (copied from `VC-1`, which
+itself has none) defines no such recipes, so the claim-ritual and finish-verification steps
+`docs/spec` cites as `just claim`/`just finish` were run as raw `kontor claim SD-1` / `kontor ticket
+status SD-1 review` / `kontor finish SD-1` instead, with an extra manual `git add -A && git commit`
+in `.gitkontor/` after `claim` since the bare subcommand edits `state.toml` but does not commit it
+itself (unlike the wrapper recipe the workflow doc describes). `kontor finish` additionally
+required a live local branch matching the ticket to verify containment against — recreated
+`chore/sd-1-bootstrap` locally (pointing at the pre-merge commit) after having deleted it
+post-push, then deleted it again once `finish` had read it.
+
+**Ticket-authoring divergence from the base-layer workflow doc's §4.10 "epics as parents
+everywhere" rule**: no `epic`-typed items were created for M0–M3, matching the three siblings'
+actual practice (`create_villager_customers` has none either) rather than the documented rule — a
+known policy-vs-practice gap this project inherits rather than re-litigates.
