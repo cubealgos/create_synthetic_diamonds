@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "synthetic_diamonds",
+  "version": "${version}",
+  "name": "Create: Synthetic Diamonds",
+  "description": "A Create mechanical press turns charcoal, coal or a coal block into a small, mutually exclusive chance of a diamond, or otherwise flint or gunpowder.",
+  "authors": [
+    "Cube Algos"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/synthetic-diamonds",
+    "sources": "https://git.cubealgos.de/cubealgos/create_synthetic_diamonds",
+    "issues": "https://github.com/cubealgos/create_synthetic_diamonds/issues"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "synthetic_diamonds.SyntheticDiamonds"
+    ],
+    "client": [
+      "synthetic_diamonds.client.SyntheticDiamondsClient"
+    ]
+  },
+  "mixins": [
+    "synthetic_diamonds.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.2",
+    "java": ">=25",
+    "fabric-api": ">=0.160.0",
+    "create": "6.0.9-1"
+  }
+}

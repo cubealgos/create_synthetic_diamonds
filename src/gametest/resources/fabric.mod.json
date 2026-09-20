@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "synthetic_diamonds_gametest",
+  "version": "1.0.0",
+  "name": "Synthetic Diamonds game tests",
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": {
+    "fabric-gametest": [
+      "synthetic_diamonds.gametest.SmokeGameTest"
+    ]
+  },
+  "depends": {
+    "synthetic_diamonds": "*"
+  }
+}
