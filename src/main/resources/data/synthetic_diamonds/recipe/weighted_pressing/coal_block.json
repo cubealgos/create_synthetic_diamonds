@@ -1,0 +1,10 @@
+{
+  "type": "synthetic_diamonds:weighted_pressing",
+  "ingredient": "#c:storage_blocks/coal",
+  "diamond_chance": 0.005,
+  "diamond_count": 1,
+  "flint_chance": 0.95,
+  "flint_count": 9,
+  "gunpowder_chance": 0.045,
+  "gunpowder_count": 9
+}

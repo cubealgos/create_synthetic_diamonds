@@ -25,6 +25,19 @@ import net.minecraft.world.item.Items;
  * <p>The test recipe (diamond weight 1.0, deterministic) is a datapack shipped only in this
  * game-test source set ({@code data/synthetic_diamonds_gametest/recipe/weighted_pressing/}), not
  * a mod-shipped recipe — those three (charcoal/coal/coal_block) are SD-3's scope.
+ *
+ * <p>Its ingredient is {@code minecraft:blaze_powder}, not {@code minecraft:charcoal} as SD-2
+ * first wrote it (SD-3 finding): once SD-3 ships a real {@code synthetic_diamonds:weighted_pressing/charcoal}
+ * recipe, the game-test environment would hold two recipes both matching {@code minecraft:charcoal}
+ * under {@code AllRecipeTypes.PRESSING} at once (this class's own always-diamond fixture and the
+ * shipped ~0.5%-diamond recipe), and {@code RecipeMap.getRecipesFor(...).findFirst()} picks
+ * whichever one the data pack happened to load first — insertion order into the underlying
+ * {@code ImmutableMultimap}, not alphabetical or otherwise specified (`RecipeMap.create`,
+ * confirmed by `javap -p -c`). Keeping this fixture's own ingredient disjoint from every
+ * mod-shipped recipe's ingredient avoids relying on that unspecified order for this test's own
+ * determinism, matching `docs/spec/domains/recipe.md` `RECIPE-FAIL-004`'s own point that ordinary
+ * vanilla conflict resolution is not special-cased by this mod — including for this mod's own two
+ * recipes.
  */
 public final class WeightedPressingGameTest {
     @GameTest
@@ -36,14 +49,14 @@ public final class WeightedPressingGameTest {
         // spawnItem(Item, BlockPos) translates relative-to-absolute internally (it funnels through
         // spawnItem(Item, Vec3)'s absoluteVec call) — a test-relative BlockPos here, not an
         // already-absolute one (helper.absolutePos would double-translate it).
-        ItemEntity charcoal = helper.spawnItem(Items.CHARCOAL, pressPos.above());
+        ItemEntity blazePowder = helper.spawnItem(Items.BLAZE_POWDER, pressPos.above());
 
-        boolean applied = press.tryProcessInWorld(charcoal, false);
+        boolean applied = press.tryProcessInWorld(blazePowder, false);
         helper.assertTrue(applied, "the press found and applied the weighted pressing recipe");
         // A count-1 stack is pressed in place (RecipeApplier.applyRecipeOn(ItemEntity, ...) mutates
         // the same entity's stack rather than spawning a new one, confirmed by this ticket's
         // javap -p -c of tryProcessInWorld), so the same entity now holds the diamond.
-        helper.assertTrue(charcoal.getItem().is(Items.DIAMOND), "the pressed item became a diamond, but was " + charcoal.getItem());
+        helper.assertTrue(blazePowder.getItem().is(Items.DIAMOND), "the pressed item became a diamond, but was " + blazePowder.getItem());
         helper.succeed();
     }
 }

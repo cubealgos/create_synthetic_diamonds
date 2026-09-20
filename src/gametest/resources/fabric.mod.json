@@ -9,6 +9,11 @@
     "fabric-gametest": [
       "synthetic_diamonds.gametest.SmokeGameTest",
       "synthetic_diamonds.gametest.WeightedPressingGameTest",
+      "synthetic_diamonds.gametest.ShippedRecipesDepotGameTest",
+      "synthetic_diamonds.gametest.WeightedPressingDistributionGameTest",
+      "synthetic_diamonds.gametest.BeltPressingGameTest",
+      "synthetic_diamonds.gametest.RecipeCoexistenceGameTest",
+      "synthetic_diamonds.gametest.RecipeOverrideGameTest",
       "synthetic_diamonds.gametest.DebugCommandGameTest"
     ]
   },
