@@ -5,9 +5,38 @@
 Every type with its summary and every non-private constructor, method and constant. The
 signature is the contract; read the source only when the summary is not enough.
 
+### `class BeltPressingGameTest` — `src/gametest/java/synthetic_diamonds/gametest/BeltPressingGameTest.java`
+The belt-mode pressing path (`docs/spec/domains/roll.md` `ROLL-REQ-006`: "identically whether the press runs in belt mode or world/depot mode"), driven headless exactly as ShippedRecipesDepotGameTest drives world/depot mode: this ticket's javap -p -c of MechanicalPressBlockEntity.tryProcessOnBelt(TransportedItemStack, List) shows its own recipe lookup, roll and item-pressed bookkeeping never touch belt physics, kinetic speed or power state — the same finding SD-2 recorded for tryProcessInWorld — so calling it directly on a real, placed press still exercises the real belt lookup-and-roll path without building and powering an actual belt.
+- `void charcoalOnABeltAlwaysYieldsExactlyOneOutcome(GameTestHelper helper)`
+- `void coalOnABeltAlwaysYieldsExactlyOneOutcome(GameTestHelper helper)`
+- `void coalBlockOnABeltAlwaysYieldsASingleStackOfNineFlintNineGunpowderOrOneDiamond(GameTestHelper helper)`
+
+### `class RecipeAssertions` — `src/gametest/java/synthetic_diamonds/gametest/RecipeAssertions.java`
+Shared assertions for the SD-3 recipe game tests (`docs/spec/domains/recipe.md` `RECIPE-REQ-001`–`003`, `docs/spec/domains/roll.md` `ROLL-REQ-001`): a press cycle's result is exactly one of {diamond, flint, gunpowder}, at the count that outcome's recipe declares — never zero outcomes, never a fourth item, never the wrong count.
+- `void assertSingleExclusiveOutcome(GameTestHelper helper, java.util.List<ItemStack> result, int diamondCount, int flintCount, int gunpowderCount)` — Asserts result is exactly one stack, of one of the three outcome items, at that outcome's expected count.
+- `void assertExpectedOutcomeAndCount(GameTestHelper helper, ItemStack stack, int diamondCount, int flintCount, int gunpowderCount)` — As #assertSingleExclusiveOutcome, but for a single already-pressed stack.
+
+### `class RecipeCoexistenceGameTest` — `src/gametest/java/synthetic_diamonds/gametest/RecipeCoexistenceGameTest.java`
+`docs/spec/operations/testing.md` `TEST-REQ-003`: this mod's recipe class coexists in the same AllRecipeTypes.PRESSING RecipeMap bucket as Create Fly's own vanilla PressingRecipe instances without disturbing either side's roll behaviour — the reason `04-architecture.md` `ARCH-DEC-002` rejected a shared-method mixin on ProcessingOutput.rollOutput in favour of this mod's own Recipe/RecipeSerializer pair.
+- `void vanillaAndThisModsRecipeCoexistInTheSamePressingBucket(GameTestHelper helper)`
+
+### `class RecipeOverrideGameTest` — `src/gametest/java/synthetic_diamonds/gametest/RecipeOverrideGameTest.java`
+`docs/spec/domains/recipe.md` `RECIPE-REQ-005`: a datapack that replaces one of the three shipped recipe files is used verbatim, decoded through the same codec as the shipped default.
+- `void aDatapackOverrideOfCharcoalJsonIsUsedVerbatim(GameTestHelper helper)`
+
+### `class ShippedRecipesDepotGameTest` — `src/gametest/java/synthetic_diamonds/gametest/ShippedRecipesDepotGameTest.java`
+A real MechanicalPressBlockEntity finds and runs all three shipped recipes (`docs/spec/domains/recipe.md` `RECIPE-REQ-001`–`003`) in world/depot mode via tryProcessInWorld, the same lookup-and-roll path SD-2's `## Findings` disassembled.
+- `void charcoalIsFoundAndAlwaysYieldsExactlyOneOutcome(GameTestHelper helper)`
+- `void coalIsFoundAndAlwaysYieldsExactlyOneOutcome(GameTestHelper helper)`
+- `void coalBlockIsFoundAndAlwaysYieldsExactlyOneOutcomeAtItsOwnCounts(GameTestHelper helper)`
+
 ### `class SmokeGameTest` — `src/gametest/java/synthetic_diamonds/gametest/SmokeGameTest.java`
 M0: the mod loads beside Create Fly; everything else follows.
 - `void theModLoadsBesideCreateFly(GameTestHelper helper)`
+
+### `class WeightedPressingDistributionGameTest` — `src/gametest/java/synthetic_diamonds/gametest/WeightedPressingDistributionGameTest.java`
+The exclusive-roll guarantee (`docs/spec/domains/roll.md` `ROLL-REQ-001`) held over {@value #ROLLS} rolls of the shipped charcoal recipe's own weights, seeded for determinism (`docs/spec/operations/testing.md`'s game-test row): every roll produces exactly one stack, of one of the three outcome items, and the observed distribution lands within a wide, statistically safe ballpark of the declared 0.5% / 95% / 4.5% weights.
+- `void chargedCharcoalRollsStayExclusiveAndInBallpark(GameTestHelper helper)`
 
 ### `class WeightedPressingGameTest` — `src/gametest/java/synthetic_diamonds/gametest/WeightedPressingGameTest.java`
 Proves a real MechanicalPressBlockEntity finds and runs this mod's synthetic_diamonds:weighted_pressing recipe class through its ordinary RecipeManager/RecipeMap lookup, with zero mixin (`docs/spec/domains/roll.md` `ROLL-REQ-002`, `ROLL-REQ-005`; `docs/spec/04-architecture.md` `ARCH-DEC-002`).

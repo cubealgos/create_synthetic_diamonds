@@ -1,6 +1,6 @@
 {
   "type": "synthetic_diamonds:weighted_pressing",
-  "ingredient": "minecraft:blaze_powder",
+  "ingredient": "minecraft:charcoal",
   "diamond_chance": 1.0,
   "diamond_count": 1,
   "flint_chance": 0.0,
