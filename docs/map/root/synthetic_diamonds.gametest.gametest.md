@@ -5,6 +5,11 @@
 Every type with its summary and every non-private constructor, method and constant. The
 signature is the contract; read the source only when the summary is not enough.
 
+### `class DebugCommandGameTest` — `src/gametest/java/synthetic_diamonds/gametest/DebugCommandGameTest.java`
+SD-4's two acceptance-criteria game tests for synthetic_diamonds.debug.DebugCommand, run in the game test environment, which is itself a development environment (FabricLoader.isDevelopmentEnvironment() is true under runGameTest, exactly as under runClient), so the command is registered and reachable here — the same finding create_villager_customers's own DebugCommandGameTest (`VC-5`) records: registration itself, gated on that one line in SyntheticDiamonds.onInitialize, is proven by code review, not a game test, since there is no development/non-development pair of environments a single test run can compare.
+- `void pressTalliesAllDiamondsAgainstAnAlwaysDiamondRecipe(GameTestHelper helper)`
+- `void pressReportsNoRecipeForAnItemWithNoWeightedPressingRecipe(GameTestHelper helper)`
+
 ### `class SmokeGameTest` — `src/gametest/java/synthetic_diamonds/gametest/SmokeGameTest.java`
 M0: the mod loads beside Create Fly; everything else follows.
 - `void theModLoadsBesideCreateFly(GameTestHelper helper)`

@@ -1,1 +1,4 @@
-{}
+{
+  "command.synthetic_diamonds.debug.press.tally": "%s diamond, %s flint, %s gunpowder out of %s (weights %s/%s/%s)",
+  "command.synthetic_diamonds.debug.press.no_recipe": "no synthetic_diamonds:weighted_pressing recipe found for %s"
+}

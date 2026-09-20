@@ -8,7 +8,8 @@
   "entrypoints": {
     "fabric-gametest": [
       "synthetic_diamonds.gametest.SmokeGameTest",
-      "synthetic_diamonds.gametest.WeightedPressingGameTest"
+      "synthetic_diamonds.gametest.WeightedPressingGameTest",
+      "synthetic_diamonds.gametest.DebugCommandGameTest"
     ]
   },
   "depends": {
