@@ -58,3 +58,76 @@ confirmed JSON field names). Blocks SD-5 (the requirement-to-test table cites th
 SD-8 (a JEI category needs a real recipe to render). The coal-block roll shape (×9 by-products only,
 diamond odds unchanged) is a Kevin ruling, not this ticket's to reopen — see
 `rulings-2026-09-20.md`.
+
+## Findings
+
+The three shipped files (`charcoal.json`, `coal.json`, `coal_block.json`) decode exactly as
+`domains/recipe.md` §3 proposes, with `coal_block.json`'s `ingredient` as the tag form
+`"#c:storage_blocks/coal"` — confirmed against `fabric-convention-tags-v2-4.7.1+1f023a9e9e.jar`'s
+own `data/c/tags/item/storage_blocks/coal.json`, whose only value is `minecraft:coal_block`.
+`RECIPE-REQ-004` (no charcoal-block recipe) is recorded as deliberate in `RecipeRegistration`'s own
+Javadoc, not left silently absent, and `RecipeFilesTest.noCharcoalBlockRecipeExists` asserts the
+file's continued absence.
+
+**A real recipe-id collision, found and fixed before it could break an already-merged test.**
+SD-2's `WeightedPressingGameTest` shipped its own private test recipe
+(`data/synthetic_diamonds_gametest/recipe/weighted_pressing/test_diamond_always.json`) with
+`ingredient: "minecraft:charcoal"` — the same ingredient this ticket's real `charcoal.json` now
+also claims. `javap -p -c` of `RecipeMap.create` (merged Minecraft jar) shows `RecipeMap`'s
+`byType` multimap is an `ImmutableMultimap` built by iterating the loaded-recipe `Iterable` once,
+in whatever order the data pack reload produced it — not alphabetical, not otherwise specified —
+and `RecipeMap.getRecipesFor(...).findFirst()` (SD-2's own finding) returns whichever of two
+same-ingredient recipes happens to come first in that unspecified order. Once this ticket's
+`charcoal.json` existed, SD-2's fixture and the real recipe would both match every charcoal press,
+making SD-2's `aRealPressFindsAndRunsTheWeightedPressingRecipe` test's "always a diamond" assertion
+depend on an implementation detail neither ticket controls. Fixed by moving SD-2's fixture off
+`minecraft:charcoal` onto `minecraft:blaze_powder` (unused by any Create Fly pressing recipe and by
+all three of this mod's own), documented in that test class's own Javadoc; `RECIPE-FAIL-004`
+already says this mod does not special-case same-ingredient conflicts, so the fix is to avoid
+creating one between this mod's *own* two recipes, not to rely on the resolution order.
+
+**The datapack-override test (`RECIPE-REQ-005`) and the 2,000-roll distribution test
+(`ROLL-REQ-001`) cannot both read the loaded `charcoal.json`, so they deliberately don't.**
+`runGameTest` runs every `@GameTest` method against one dedicated server and one data-pack reload
+for the whole module — a game-test-only override of the shipped `charcoal.json` (diamond weight
+1.0, shipped from this same module's `synthetic_diamonds_gametest` companion mod at the identical
+resource path) is therefore global to every test in the run, not scoped to one test method.
+`WeightedPressingDistributionGameTest` sidesteps this by constructing its
+`WeightedPressingRecipe` directly from the same six literals as the real `charcoal.json`, never
+going through `RecipeManager`, so its 2,000-roll tally is unaffected by the override; every other
+test that presses charcoal (`ShippedRecipesDepotGameTest`, `BeltPressingGameTest`) only asserts
+"one of the three outcomes at its recipe's own count", which an always-diamond charcoal still
+satisfies, so the override does not make them flaky either. `RecipeOverrideGameTest` confirms the
+override is honoured (20/20 rolls yielded a diamond).
+
+**Belt mode is headless-testable the same way SD-2 drove world/depot mode.**
+`javap -p -c` of `MechanicalPressBlockEntity.tryProcessOnBelt(TransportedItemStack, List<ItemStack>)`
+shows the identical shape SD-2 found for `tryProcessInWorld`: `getRecipe` → `checkcast
+CreateRollableRecipe` → `RecipeApplier.applyRecipeOn`, with no belt-physics, kinetic-speed or power
+check anywhere before that point. Unlike `tryProcessInWorld` (which mutates the pressed
+`ItemEntity`'s stack in place), `tryProcessOnBelt` does not mutate its `TransportedItemStack`
+argument — it appends the roll's result stack to the caller-supplied output `List<ItemStack>`
+instead — so `BeltPressingGameTest` reads the outcome off that list.
+`TransportedItemStack(ItemStack)` has a public single-arg constructor, so a real, placed
+`MechanicalPressBlockEntity`'s belt path is driven directly with no belt or kinetic network built.
+Also confirmed: `RecipeApplier.applyRecipeOn(RandomSource, int count, ...)` loops `assemble()`
+exactly `count` times (merging same-item results, capped at max stack size) — for a count-1 input
+stack this is one roll, matching the "exactly one outcome per cycle" guarantee in both modes.
+
+**`just check`'s gametest run: "All 12 required tests passed :)"** — the 11 `@GameTest` methods
+this ticket and SD-2 together define, plus one test this module did not add (present in both a
+baseline run and this ticket's final run; not investigated further since it is unrelated to this
+ticket's scope and passes either way).
+
+**The 2,000-roll charcoal distribution, seed `20260920`:** diamond 8/2000 (0.004, within
+`[0.001, 0.012]`), flint 1900/2000 (0.95, within `[0.92, 0.98]`), gunpowder 92/2000 (0.046, within
+`[0.02, 0.07]`) — every one of the 2,000 rolls produced exactly one stack, of one of the three
+outcome items, at count 1.
+
+**A pre-existing, harmless float-precision note, not a bug:** `0.005f + 0.95f + 0.045f` sums to
+`0.9999999897554517` in `WeightedPick.of`'s double-widened arithmetic, not exactly `1.0`, so every
+one of this ticket's three recipes (and the hand-built recipe in the distribution test) triggers
+`ROLL-REQ-003`'s normalize-and-log-once path on every load. The normalization is proportional and
+negligible (the actual weights used are apart from `1.0` by ~`1e-8`); logged here since it is a new,
+real (if inconsequential) instance of `ROLL-FAIL-001` the shipped recipes themselves trigger, not
+only a datapack author's arithmetic mistake as `roll.md` example anticipated.
