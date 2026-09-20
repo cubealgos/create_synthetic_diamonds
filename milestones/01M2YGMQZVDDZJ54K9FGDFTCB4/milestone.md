@@ -3,7 +3,7 @@ schema_version: 1
 id: 01M2YGMQZVDDZJ54K9FGDFTCB4
 key: M0
 title: Foundation
-status: backlog
+status: todo
 created_at: 2026-09-20T04:19:28Z
 ---
 
@@ -22,7 +22,7 @@ Bootstrap, packaging, licensing and the first continuous-integration run.
 
 ## Tickets
 
-- (none yet)
+SD-1.
 
 ## Depends on
 
