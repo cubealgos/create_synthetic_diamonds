@@ -44,6 +44,10 @@ A real MechanicalPressBlockEntity finds and runs all three shipped recipes (`doc
 M0: the mod loads beside Create Fly; everything else follows.
 - `void theModLoadsBesideCreateFly(GameTestHelper helper)`
 
+### `class WeightedPressingClampGameTest` — `src/gametest/java/synthetic_diamonds/gametest/WeightedPressingClampGameTest.java`
+`docs/spec/domains/recipe.md` `RECIPE-FAIL-003`: a recipe JSON whose diamond_chance is above the valid [0, 1] range loads anyway -- clamped to 1.0 and logged once, rather than rejected -- and every press cycle against it still yields exactly one outcome (`docs/spec/domains/roll.md` `ROLL-REQ-001`), here always a single diamond since the other two weights are 0.0.
+- `void anOutOfRangeDiamondWeightIsClampedAndEveryRollYieldsExactlyOneDiamond(GameTestHelper helper)`
+
 ### `class WeightedPressingDistributionGameTest` — `src/gametest/java/synthetic_diamonds/gametest/WeightedPressingDistributionGameTest.java`
 The exclusive-roll guarantee (`docs/spec/domains/roll.md` `ROLL-REQ-001`) held over {@value #ROLLS} rolls of the shipped charcoal recipe's own weights, seeded for determinism (`docs/spec/operations/testing.md`'s game-test row): every roll produces exactly one stack, of one of the three outcome items, and the observed distribution lands within a wide, statistically safe ballpark of the declared 0.5% / 95% / 4.5% weights.
 - `void chargedCharcoalRollsStayExclusiveAndInBallpark(GameTestHelper helper)`

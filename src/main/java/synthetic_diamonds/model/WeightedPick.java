@@ -26,20 +26,29 @@ public final class WeightedPick {
     }
 
     /**
-     * Builds a pick from three weights, normalizing them to sum to exactly 1.0 when they do not
-     * (`ROLL-REQ-003`) and reporting that through {@code onNormalized} once, rather than logging
-     * from this pure class directly.
+     * Builds a pick from three weights: each is first clamped into {@code [0, 1]}
+     * (`docs/spec/domains/recipe.md` `RECIPE-FAIL-003`), reporting that through
+     * {@code onNormalized} once per clamped weight, then the (possibly clamped) three are
+     * normalized to sum to exactly 1.0 when they do not (`ROLL-REQ-003`), reported through the
+     * same consumer once more. Nothing is logged from this pure class directly; {@code
+     * onNormalized} is the sole channel for both kinds of message.
      *
-     * @param diamondWeight the diamond bucket's share of {@code [0, 1)}, before normalization
-     * @param flintWeight the flint bucket's share, before normalization
-     * @param gunpowderWeight the gunpowder bucket's share, before normalization
-     * @param onNormalized called at most once, with a human-readable message, only when the three
-     *     weights did not already sum to exactly 1.0
+     * @param diamondWeight the diamond bucket's share of {@code [0, 1)}, before clamping or
+     *     normalization
+     * @param flintWeight the flint bucket's share, before clamping or normalization
+     * @param gunpowderWeight the gunpowder bucket's share, before clamping or normalization
+     * @param onNormalized called once per weight clamped into range, and at most once more when
+     *     the (post-clamp) three weights do not already sum to exactly 1.0, each time with a
+     *     human-readable message
      * @return a pick whose three weights sum to exactly 1.0
-     * @throws IllegalArgumentException if the three weights sum to exactly zero and therefore
-     *     cannot be normalized (`ROLL-FAIL-002`)
+     * @throws IllegalArgumentException if the three weights, after clamping, sum to exactly zero
+     *     and therefore cannot be normalized (`ROLL-FAIL-002`)
      */
     public static WeightedPick of(float diamondWeight, float flintWeight, float gunpowderWeight, Consumer<String> onNormalized) {
+        diamondWeight = clamp(diamondWeight, "diamond", onNormalized);
+        flintWeight = clamp(flintWeight, "flint", onNormalized);
+        gunpowderWeight = clamp(gunpowderWeight, "gunpowder", onNormalized);
+
         double sum = (double) diamondWeight + (double) flintWeight + (double) gunpowderWeight;
         if (sum == 0.0) {
             throw new IllegalArgumentException(
@@ -52,6 +61,23 @@ public final class WeightedPick {
             flintWeight = (float) (flintWeight / sum);
         }
         return new WeightedPick(diamondWeight, flintWeight);
+    }
+
+    /**
+     * Clamps a single weight into {@code [0, 1]} (`RECIPE-FAIL-003`), reporting the clamp through
+     * {@code onClamped} exactly when {@code weight} was out of range; a weight already in range is
+     * returned unchanged, with no message.
+     */
+    private static float clamp(float weight, String label, Consumer<String> onClamped) {
+        if (weight < 0f) {
+            onClamped.accept(label + " weight " + weight + " is negative; clamped to 0 (RECIPE-FAIL-003)");
+            return 0f;
+        }
+        if (weight > 1f) {
+            onClamped.accept(label + " weight " + weight + " is greater than 1; clamped to 1 (RECIPE-FAIL-003)");
+            return 1f;
+        }
+        return weight;
     }
 
     /**

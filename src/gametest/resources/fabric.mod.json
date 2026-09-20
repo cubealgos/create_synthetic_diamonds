@@ -15,7 +15,8 @@
       "synthetic_diamonds.gametest.RecipeCoexistenceGameTest",
       "synthetic_diamonds.gametest.RecipeOverrideGameTest",
       "synthetic_diamonds.gametest.DebugCommandGameTest",
-      "synthetic_diamonds.gametest.RecipeLoadFailureGameTest"
+      "synthetic_diamonds.gametest.RecipeLoadFailureGameTest",
+      "synthetic_diamonds.gametest.WeightedPressingClampGameTest"
     ]
   },
   "depends": {

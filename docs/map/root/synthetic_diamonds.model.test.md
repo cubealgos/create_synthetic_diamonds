@@ -6,7 +6,7 @@ Every type with its summary and every non-private constructor, method and consta
 signature is the contract; read the source only when the summary is not enough.
 
 ### `class WeightedPickTest` — `src/test/java/synthetic_diamonds/model/WeightedPickTest.java`
-The weighted-pick bucket boundaries (`docs/spec/domains/roll.md` `ROLL-REQ-001`), including the exactly-0 and just-under-1.0 edges, and the normalization/sum-to-zero cases (`ROLL-REQ-003`, `ROLL-FAIL-001`, `ROLL-FAIL-002`) (`docs/spec/operations/testing.md`).
+The weighted-pick bucket boundaries (`docs/spec/domains/roll.md` `ROLL-REQ-001`), including the exactly-0 and just-under-1.0 edges, the per-weight clamp (`docs/spec/domains/recipe.md` `RECIPE-FAIL-003`), and the normalization/sum-to-zero cases (`ROLL-REQ-003`, `ROLL-FAIL-001`, `ROLL-FAIL-002`) (`docs/spec/operations/testing.md`).
 - `void rollOfExactlyZeroLandsOnDiamond()`
 - `void rollJustBelowTheDiamondBoundaryLandsOnDiamond()`
 - `void rollExactlyAtTheDiamondBoundaryLandsOnFlint()`
@@ -18,4 +18,9 @@ The weighted-pick bucket boundaries (`docs/spec/domains/roll.md` `ROLL-REQ-001`)
 - `void weightsThatDoNotSumToOneAreNormalizedProportionallyAndReportedOnce()`
 - `void weightsSummingToExactlyZeroAreRejected()`
 - `void theRejectionMessageNamesTheFailureMode()`
+- `void aNegativeWeightIsClampedToZeroAndLoggedOnce()`
+- `void aWeightAboveOneIsClampedToOneAndLoggedOnce()`
+- `void twoOutOfRangeWeightsAreEachClampedAndLoggedSeparately()`
+- `void aClampThatMakesTheSumZeroStillRejects()`
+- `void weightsAlreadyInRangeAreNeverClamped()`
 
