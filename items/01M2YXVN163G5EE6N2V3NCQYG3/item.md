@@ -18,9 +18,9 @@ Pure change in `synthetic_diamonds.model.WeightedPick` plus unit tests (negative
 
 ## Acceptance criteria
 
-- [ ] Unit tests for the clamp on each weight, including the log-once behaviour.
-- [ ] Game test: a fixture recipe with an out-of-range weight loads and every roll yields exactly one outcome.
-- [ ] Merged through a Forgejo pull request into `development`.
+- [x] Unit tests for the clamp on each weight, including the log-once behaviour.
+- [x] Game test: a fixture recipe with an out-of-range weight loads and every roll yields exactly one outcome.
+- [x] Merged through a Forgejo pull request into `development`.
 
 ## Constraints and prior findings
 
