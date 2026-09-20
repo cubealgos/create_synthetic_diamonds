@@ -39,16 +39,16 @@ alongside this mod's own to prove `TEST-REQ-003`.
 
 ## Acceptance criteria
 
-- [ ] All three recipe JSON files load without error; `charcoal.json` and `coal.json` at identical
+- [x] All three recipe JSON files load without error; `charcoal.json` and `coal.json` at identical
       weights and counts; `coal_block.json` at the same weights but 1/9/9 counts.
-- [ ] `RECIPE-REQ-004` confirmed: no charcoal-block recipe file exists, and this is stated as
+- [x] `RECIPE-REQ-004` confirmed: no charcoal-block recipe file exists, and this is stated as
       deliberate in a code comment or the recipe folder's own note, not left silently absent.
-- [ ] A belt-mode game test and a world/depot-mode game test each press all three recipes and
+- [x] A belt-mode game test and a world/depot-mode game test each press all three recipes and
       assert exactly one outcome per cycle, over enough seeded rolls to give confidence in
       exclusivity (`ROLL-REQ-001`, `TEST-REQ-003` style).
-- [ ] A coexistence game test presses a real Create Fly vanilla recipe and this mod's recipe in the
+- [x] A coexistence game test presses a real Create Fly vanilla recipe and this mod's recipe in the
       same session, confirming neither disturbs the other's roll behaviour.
-- [ ] `just check` green, including all new game tests.
+- [x] `just check` green, including all new game tests.
 
 ## Constraints and prior findings
 

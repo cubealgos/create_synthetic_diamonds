@@ -1,7 +1,17 @@
 {
   "pulls": {
-    "at": 1789880951.120529,
+    "at": 1789881006.946421,
     "payload": [
+      {
+        "author": "scheeren",
+        "base": "development",
+        "ci": "pending",
+        "head": "feature/sd-4-debug-command",
+        "index": "6",
+        "state": "merged",
+        "title": "feat(synthetic_diamonds): development-only /synthetic_diamonds debug press: roll the live weights N times and print the tally (SD-4)",
+        "updated": "2026-09-20T05:09:22Z"
+      },
       {
         "author": "scheeren",
         "base": "development",
