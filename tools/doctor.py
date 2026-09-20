@@ -80,9 +80,9 @@ def main_checkout() -> Path:
 
 def check_spec_copy() -> tuple[bool | None, str]:
     default = main_checkout().parent / "heimathafen" / "vault" / "projects" / "create_synthetic_diamonds" / "spec"
-    vault = Path(os.environ.get("VC_VAULT_SPEC", default))
+    vault = Path(os.environ.get("SD_VAULT_SPEC", default))
     if not vault.exists():
-        return None, f"spec copy: vault not present at {vault}; skipped (set VC_VAULT_SPEC to check)"
+        return None, f"spec copy: vault not present at {vault}; skipped (set SD_VAULT_SPEC to check)"
     diff = run("diff", "-rq", str(ROOT / "docs" / "spec"), str(vault.resolve()))
     if not diff:
         return True, "spec copy: docs/spec/ is identical to the vault"
