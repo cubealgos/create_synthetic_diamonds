@@ -1,7 +1,17 @@
 {
   "pulls": {
-    "at": 1789879309.007027,
+    "at": 1789879375.357755,
     "payload": [
+      {
+        "author": "scheeren",
+        "base": "development",
+        "ci": "failure",
+        "head": "documentation/sd-6-modrinth-assets",
+        "index": "2",
+        "state": "merged",
+        "title": "docs(synthetic_diamonds): Modrinth listing assets ahead of the release: navy badge icon from the diamond sprite, body and settings, gallery shot list (SD-6)",
+        "updated": "2026-09-20T04:42:00Z"
+      },
       {
         "author": "scheeren",
         "base": "development",
