@@ -1,0 +1,8 @@
+{
+  "type": "synthetic_diamonds:weighted_pressing",
+  "ingredient": "minecraft:nether_star",
+  "diamond_chance": 0.5,
+  "diamond_count": 1,
+  "flint_chance": 0.5,
+  "flint_count": 1
+}

@@ -1,0 +1,10 @@
+{
+  "type": "synthetic_diamonds:weighted_pressing",
+  "ingredient": "minecraft:this_item_does_not_exist",
+  "diamond_chance": 0.5,
+  "diamond_count": 1,
+  "flint_chance": 0.25,
+  "flint_count": 1,
+  "gunpowder_chance": 0.25,
+  "gunpowder_count": 1
+}
