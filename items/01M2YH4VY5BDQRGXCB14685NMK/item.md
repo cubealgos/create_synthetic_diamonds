@@ -44,16 +44,16 @@ sum to 1.0; reject at load when they sum to exactly 0 (`ROLL-FAIL-001`, `ROLL-FA
 
 ## Acceptance criteria
 
-- [ ] `RecipeManager`/`RecipeMap` bucketing confirmed against the real jars (or the mixin fallback
+- [x] `RecipeManager`/`RecipeMap` bucketing confirmed against the real jars (or the mixin fallback
       taken and recorded here) before the recipe class is written.
-- [ ] `synthetic_diamonds.recipe`'s custom `Recipe`/`RecipeSerializer` self-reports
+- [x] `synthetic_diamonds.recipe`'s custom `Recipe`/`RecipeSerializer` self-reports
       `AllRecipeTypes.PRESSING` and is found by a real `MechanicalPressBlockEntity` lookup.
-- [ ] The weighted pick in `synthetic_diamonds.model` is unit-tested with a fixed `RandomSource`
+- [x] The weighted pick in `synthetic_diamonds.model` is unit-tested with a fixed `RandomSource`
       against every bucket boundary (`ROLL-REQ-001`), including exactly-0 and just-under-1.0 edges.
-- [ ] Weight normalization (`ROLL-REQ-003`) and the sum-to-zero rejection (`ROLL-FAIL-002`) are
+- [x] Weight normalization (`ROLL-REQ-003`) and the sum-to-zero rejection (`ROLL-FAIL-002`) are
       unit-tested.
-- [ ] `verifyPurePackage` passes against `synthetic_diamonds.model` with the roll logic inside it.
-- [ ] `just check` green.
+- [x] `verifyPurePackage` passes against `synthetic_diamonds.model` with the roll logic inside it.
+- [x] `just check` green.
 
 ## Constraints and prior findings
 
