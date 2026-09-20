@@ -25,6 +25,11 @@ Shared assertions for the SD-3 recipe game tests (`docs/spec/domains/recipe.md` 
 `docs/spec/operations/testing.md` `TEST-REQ-003`: this mod's recipe class coexists in the same AllRecipeTypes.PRESSING RecipeMap bucket as Create Fly's own vanilla PressingRecipe instances without disturbing either side's roll behaviour — the reason `04-architecture.md` `ARCH-DEC-002` rejected a shared-method mixin on ProcessingOutput.rollOutput in favour of this mod's own Recipe/RecipeSerializer pair.
 - `void vanillaAndThisModsRecipeCoexistInTheSamePressingBucket(GameTestHelper helper)`
 
+### `class RecipeLoadFailureGameTest` — `src/gametest/java/synthetic_diamonds/gametest/RecipeLoadFailureGameTest.java`
+`docs/spec/domains/recipe.md` `RECIPE-FAIL-001`/`RECIPE-FAIL-002`: a recipe JSON whose ingredient names an item id that does not exist, or that omits a required *_chance field, fails to load exactly like any malformed vanilla recipe — the recipe is simply absent from RecipeManager, no crash, and no other recipe in the same reload is disturbed.
+- `void aRecipeReferencingANonexistentItemIdFailsToLoadWithoutCrashing(GameTestHelper helper)`
+- `void aRecipeMissingARequiredChanceFieldFailsToLoadWithoutCrashing(GameTestHelper helper)`
+
 ### `class RecipeOverrideGameTest` — `src/gametest/java/synthetic_diamonds/gametest/RecipeOverrideGameTest.java`
 `docs/spec/domains/recipe.md` `RECIPE-REQ-005`: a datapack that replaces one of the three shipped recipe files is used verbatim, decoded through the same codec as the shipped default.
 - `void aDatapackOverrideOfCharcoalJsonIsUsedVerbatim(GameTestHelper helper)`
