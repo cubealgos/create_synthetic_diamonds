@@ -36,14 +36,14 @@ gunpowder next to a single diamond to sell the rarity, the recipe JSON open in a
 
 ## Acceptance criteria
 
-- [ ] `just icon` renders `docs/modrinth/icon.png` from the vanilla diamond sprite on the navy
+- [x] `just icon` renders `docs/modrinth/icon.png` from the vanilla diamond sprite on the navy
       badge, matching the siblings' visual style.
-- [ ] `docs/modrinth/body.md`'s `## Body` section is filled with real prose (no longer "to be
+- [x] `docs/modrinth/body.md`'s `## Body` section is filled with real prose (no longer "to be
       written at SD-6"); the project-settings table from SD-1 is carried forward unchanged unless
       a real detail changed.
-- [ ] `docs/modrinth/gallery.md` lists concrete shots to take, each with what it should show and
+- [x] `docs/modrinth/gallery.md` lists concrete shots to take, each with what it should show and
       why.
-- [ ] `just check` still green (icon rendering is not part of `check`, but nothing it touches
+- [x] `just check` still green (icon rendering is not part of `check`, but nothing it touches
       breaks the build).
 
 ## Constraints and prior findings
