@@ -1,11 +1,21 @@
 {
   "pulls": {
-    "at": 1789881006.946421,
+    "at": 1789891027.225709,
     "payload": [
       {
         "author": "scheeren",
         "base": "development",
-        "ci": "pending",
+        "ci": "success",
+        "head": "feature/sd-3-recipe-data",
+        "index": "7",
+        "state": "merged",
+        "title": "feat(synthetic_diamonds): the three pressing recipes: charcoal, coal and the coal block, with their game tests (SD-3)",
+        "updated": "2026-09-20T05:10:18Z"
+      },
+      {
+        "author": "scheeren",
+        "base": "development",
+        "ci": "success",
         "head": "feature/sd-4-debug-command",
         "index": "6",
         "state": "merged",
