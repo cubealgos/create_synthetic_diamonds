@@ -64,3 +64,48 @@ files need the serializer id and JSON shape this ticket settles) and SD-4 (the d
 the same pure roll). The JSON field names in `domains/recipe.md` §3 ("proposed") are confirmed or
 adjusted here, and `domains/recipe.md`'s open question ("the exact field names") is resolved by
 this ticket, to be recorded back if it diverges from the sheet's proposal.
+
+## Findings
+
+`javap -p -c` against the Create Fly jar (`create-fly-26.2-rc-2-6.0.9-1.jar`) and the merged
+Minecraft jar (`minecraft-merged-deobf-26.2.jar`) in the Gradle cache, done before any Java was
+written, confirms `ROLL-REQ-002`/`ROLL-REQ-005`/`ARCH-DEC-001`/`ARCH-DEC-002` hold as proposed, with
+one refinement recorded below. No mixin fallback (`ARCH-FAIL-002`/`ROLL-FAIL-003`) is needed.
+
+- **`RecipeMap.create(Iterable<RecipeHolder<?>>)`** builds its `Multimap<RecipeType<?>,
+  RecipeHolder<?>>` by calling `RecipeHolder.value().getType()` on each loaded recipe
+  (`invokeinterface Recipe.getType`) and using that live object as the multimap key — never reading
+  the JSON `"type"`/serializer field. `RecipeMap.byType(RecipeType<T>)` is a plain
+  `Multimap.get(Object)` call: reference/`equals` identity of the `RecipeType` object is what
+  matters, confirming a custom class whose `getType()` returns the literal `AllRecipeTypes.PRESSING`
+  static field lands in exactly the same bucket as every vanilla `PressingRecipe`.
+- **`MechanicalPressBlockEntity.getRecipe(SingleRecipeInput)`** disassembles to exactly
+  `((ServerLevel) level).recipeAccess().getRecipeFor(AllRecipeTypes.PRESSING, input, level)` — the
+  same literal static field, no string/id comparison — and `RecipeManager.getRecipeFor` resolves to
+  `RecipeMap.getRecipesFor(type, input, level).findFirst()`, i.e. `byType(type).stream().filter(v ->
+  v.value().matches(input, level))`. Confirmed identical in both `tryProcessOnBelt` and
+  `tryProcessInWorld` (belt and world/depot mode call the same `getRecipe()`), matching `ROLL-REQ-006`.
+- **Refinement to `ARCH-DEC-002`'s proposed shape**: `tryProcessOnBelt`/`tryProcessInWorld` do not
+  stop at `Recipe`/`RecipeHolder` — after unwrapping the `Optional<RecipeHolder<PressingRecipe>>`
+  (a compile-time-only generic signature; erased at runtime, so it performs no runtime check), both
+  methods `checkcast` the recipe's value to
+  `com.zurrtum.create.foundation.recipe.CreateRollableRecipe` before calling the static
+  `RecipeApplier.applyRecipeOn(RandomSource, int, RecipeInput, CreateRollableRecipe)`. A class
+  implementing bare vanilla `Recipe<SingleRecipeInput>` only (not `CreateRollableRecipe`) would be
+  found by `getRecipe()` but then throw `ClassCastException` the instant the press tried to apply it.
+  `WeightedPressingRecipe` therefore implements `CreateRollableRecipe<SingleRecipeInput>` (Create
+  Fly's own interface, declaring `abstract List<ItemStack> assemble(T, RandomSource)` as a `default`
+  method overridable in an implementing class), not `CreateSingleStackRollableRecipe` (which would
+  also pull in an unused `ingredient()`/`results()`-based default `assemble` this mod replaces
+  anyway) and not plain `Recipe`.
+- `MechanicalPressBlockEntity.tryProcessInWorld(ItemEntity, boolean)`'s recipe lookup, roll and
+  application (`getRecipe` → `checkcast CreateRollableRecipe` → `RecipeApplier.applyRecipeOn`) have
+  no dependency on `getKineticSpeed()`/`canProcessInBulk()`/power state anywhere before that point —
+  confirmed by full disassembly of the method. This is why the game test below calls it directly
+  rather than building and powering a real kinetic network.
+- `BuiltInRegistries.RECIPE_SERIALIZER` (`Registry<RecipeSerializer<?>>`) is the ordinary vanilla
+  registry `RecipeRegistration.register()` registers into via `Registry.register`; no Create Fly API
+  used, confirming `ROLL-REQ-005`'s "no mixin, no `RecipeType` of its own" claim in full.
+- Minor toolchain note, not a design finding: on this 26.2 jar, `net.minecraft.resources.ResourceLocation`
+  does not exist — the class is `net.minecraft.resources.Identifier` (`fromNamespaceAndPath(String,
+  String)`), used accordingly in `RecipeRegistration`.
